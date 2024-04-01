@@ -1,0 +1,71 @@
+projection;
+strict ( 2 );
+use draft;
+use side effects;
+
+define behavior for ZC_ZT_EMAIL_CONF alias Config
+use etag
+
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Content { create; with draft; }
+  use association _Recipent { create; with draft; }
+  use association _Attachment { create; with draft; }
+  use association _Job { create; with draft; }
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+}
+
+define behavior for ZC_ZT_EMAIL_TMPL alias Content
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Config { with draft; }
+}
+
+define behavior for ZC_ZT_EMAIL_CONF_R alias Recipent
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Config { with draft; }
+}
+
+define behavior for ZC_ZT_EMAIL_CONF_A alias Attachment
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Config { with draft; }
+}
+
+define behavior for ZC_ZT_EMAIL_JOB alias Job
+use etag
+{
+  use update;
+  use delete;
+
+  use association _JobParameter { create; with draft; }
+  use association _Config { with draft; }
+}
+
+define behavior for ZC_ZT_EMAIL_JOB_PA alias JobParameter
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Config { with draft; }
+  use association _Job { with draft; }
+}

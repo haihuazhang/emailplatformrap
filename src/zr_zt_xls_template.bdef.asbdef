@@ -1,0 +1,46 @@
+managed implementation in class ZBP_R_ZT_XLS_TEMPLATE unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZR_ZT_XLS_TEMPLATE alias XLSX
+persistent table zzt_xls_template
+draft table ZZT_XLS_TEMPLATD
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master( global )
+
+{
+  field ( readonly )
+   UUID,
+   CreatedAt,
+   CreatedBy,
+   LastChangedAt,
+   LastChangedBy,
+   LocalLastChangedAt;
+
+  field ( numbering : managed )
+   UUID;
+
+
+  create;
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for ZZT_XLS_TEMPLATE
+  {
+    UUID = uuid;
+    TemplateName = template_name;
+    XlsxDataSource = xlsx_data_source;
+    CreatedBy = created_by;
+    CreatedAt = created_at;
+    LastChangedBy = last_changed_by;
+    LastChangedAt = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

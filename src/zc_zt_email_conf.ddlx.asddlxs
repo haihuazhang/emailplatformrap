@@ -1,0 +1,88 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'Config',
+    typeNamePlural: 'Configs'
+  }
+}
+annotate view ZC_ZT_EMAIL_CONF with
+{
+  @UI.facet: [ {
+    id: 'idIdentification',
+    type: #IDENTIFICATION_REFERENCE,
+    label: 'Config',
+    position: 10
+  },{ id:            'Content',
+                 purpose:       #STANDARD,
+                 type:          #LINEITEM_REFERENCE,
+                 label:         'Mail Content',
+                 position:      20,
+                 targetElement: '_Content'}
+    ,{ id:            'Recipent',
+                 purpose:       #STANDARD,
+                 type:          #LINEITEM_REFERENCE,
+                 label:         'Recipents',
+                 position:      30,
+                 targetElement: '_Recipent'}
+    ,{ id:            'Attachment',
+                 purpose:       #STANDARD,
+                 type:          #LINEITEM_REFERENCE,
+                 label:         'Attachments',
+                 position:      40,
+                 targetElement: '_Attachment'}
+    ,{ id:            'Job',
+                 purpose:       #STANDARD,
+                 type:          #LINEITEM_REFERENCE,
+                 label:         'Jobs',
+                 position:      50,
+                 targetElement: '_Job'}
+
+   ]
+  @UI.hidden: true
+  UUID;
+
+  @UI.lineItem: [ {
+    position: 10 ,
+    importance: #MEDIUM,
+    label: 'Name'
+  } ]
+  @UI.identification: [ {
+    position: 10 ,
+    label: 'Name'
+  } ]
+  ConfigName;
+  
+  @UI.lineItem: [ {
+    position: 11 ,
+    importance: #MEDIUM
+  } ]
+  @UI.identification: [ {
+    position: 11 
+  } ]
+  DataSource;
+  
+  @UI.lineItem: [ {
+    position: 20 ,
+    importance: #MEDIUM,
+    label: ''
+  } ]
+  @UI.identification: [ {
+    position: 20 ,
+    label: ''
+  } ]
+  StartedWay;
+
+  @UI.lineItem: [ {
+    position: 30 ,
+    importance: #MEDIUM,
+    label: 'Has Attachment?'
+  } ]
+  @UI.identification: [ {
+    position: 30 ,
+    label: 'Has Attachment?'
+  } ]
+  HasAttachment;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

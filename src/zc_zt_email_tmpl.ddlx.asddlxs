@@ -1,0 +1,84 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'MailTemplate', 
+    typeNamePlural: 'MailTemplates'
+  }
+}
+annotate view ZC_ZT_EMAIL_TMPL with
+{
+  @UI.facet: [ {
+    id: 'idIdentification', 
+    type: #IDENTIFICATION_REFERENCE, 
+    label: 'MailTemplate', 
+    position: 10 
+  } ]
+  @UI.hidden: true
+  UUID;
+  
+  @UI.lineItem: [ {
+    position: 10 , 
+    importance: #MEDIUM, 
+    label: ''
+  } ]
+  @UI.identification: [ {
+    position: 10 , 
+    label: ''
+  } ]
+  TemplateName;
+  
+    @UI.lineItem: [ {
+    position: 11 , 
+    importance: #MEDIUM, 
+    label: ''
+  } ]
+  @UI.identification: [ {
+    position: 11 , 
+    label: ''
+  } ]
+  Language;
+  
+  @UI.lineItem: [ {
+    position: 20 , 
+    importance: #MEDIUM, 
+    label: ''
+  } ]
+  @UI.identification: [ {
+    position: 20 , 
+    label: ''
+  } ]
+  Type;
+  
+  @UI.lineItem: [ {
+    position: 30 , 
+    importance: #MEDIUM, 
+    label: 'Subject'
+  } ]
+  @UI.identification: [ {
+    position: 30 , 
+    label: 'Subject'
+  } ]
+  Subject;
+  
+  @UI.lineItem: [ {
+    position: 40 , 
+    importance: #MEDIUM, 
+    label: 'Content'
+  } ]
+  @UI.identification: [ {
+    position: 40 , 
+    label: 'Content'
+  } ]
+  @UI.multiLineText: true
+  Content;
+  
+//  _Config
+//  @UI.identification: [ {
+//    position: 50 
+//  } ]
+//  ConfigDataSource;
+  
+  
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

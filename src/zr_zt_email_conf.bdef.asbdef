@@ -1,0 +1,271 @@
+managed implementation in class ZBP_R_ZT_EMAIL_CONF unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZR_ZT_EMAIL_CONF alias Config
+persistent table zzt_email_conf
+draft table zzt_email_confd
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( global )
+
+{
+  field ( readonly )
+  UUID,
+  CreatedAt,
+  CreatedBy,
+  LastChangedAt,
+  LastChangedBy,
+  LocalLastChangedAt;
+
+  field ( numbering : managed )
+  UUID;
+
+  field ( mandatory ) ConfigName, DataSource;
+
+  create;
+  update;
+  delete;
+
+  association _Content { create; with draft; }
+  association _Recipent { create; with draft; }
+  association _Attachment { create; with draft; }
+  association _Job { create; with draft; }
+
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for zzt_email_conf
+    {
+      UUID               = uuid;
+      ConfigName         = config_name;
+      DataSource         = data_source;
+      StartedWay         = started_way;
+      HasAttachment      = has_attachment;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+
+define behavior for ZR_ZT_EMAIL_TMPL alias Content
+implementation in class zbp_r_zt_email_tmpl unique
+persistent table zzt_email_tmpl
+draft table zzt_email_tmpld
+lock dependent by _Config
+authorization dependent by _Config
+etag master LocalLastChangedAt
+{
+
+  update;
+  delete;
+  association _Config { with draft; }
+
+
+  field ( readonly ) EmailConfigUUID,
+  CreatedAt,
+  CreatedBy,
+  LastChangedAt,
+  LastChangedBy,
+  LocalLastChangedAt;
+
+  field ( mandatory ) Language, type, Subject, Content;
+  field ( numbering : managed, readonly ) UUID;
+  mapping for zzt_email_tmpl
+    {
+      UUID               = uuid;
+      TemplateName       = template_name;
+      Language           = language;
+      EmailConfigUUID    = email_config_uuid;
+      Type               = type;
+      Subject            = subject;
+      Content            = content;
+      //      DataSource         = data_source;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+
+
+define behavior for ZR_ZT_EMAIL_CONF_R alias Recipent implementation in class ZBP_R_ZT_EMAIL_CONF_R unique
+persistent table zzt_email_conf_r
+draft table zzt_email_confrd
+etag master LocalLastChangedAt
+lock dependent by _Config
+authorization dependent by _Config
+
+{
+
+  update;
+  delete;
+
+  association _Config { with draft; }
+
+
+  field ( readonly ) EmailConfigUUID,
+  CreatedAt,
+  CreatedBy,
+  LastChangedAt,
+  LastChangedBy,
+  LocalLastChangedAt;
+  field ( numbering : managed, readonly ) UUID;
+
+
+  mapping for zzt_email_conf_r
+    {
+      UUID               = uuid;
+      EmailConfigUUID    = email_config_uuid;
+      Type               = recipent_type;
+      Recipent           = recipent;
+      RecipentDataSource = recipent_data_source;
+      RecipentFieldName  = recipent_field_name;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+
+
+
+define behavior for ZR_ZT_EMAIL_CONF_A alias Attachment implementation in class ZBP_R_ZT_EMAIL_CONF_A unique
+persistent table zzt_email_conf_a
+draft table zzt_email_confad
+etag master LocalLastChangedAt
+lock dependent by _Config
+authorization dependent by _Config
+
+{
+
+
+  //  create;
+  update;
+  delete;
+
+  association _Config { with draft; }
+
+
+  field ( readonly ) EmailConfigUUID,
+  CreatedAt,
+  CreatedBy,
+  LastChangedAt,
+  LastChangedBy,
+  LocalLastChangedAt;
+  field ( numbering : managed, readonly ) UUID;
+
+  mapping for zzt_email_conf_a
+    {
+      UUID               = uuid;
+      EmailConfigUUID    = email_config_uuid;
+      Type               = attachment_type;
+      AttachConfigUUID   = attach_config_uuid;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+
+define behavior for ZR_ZT_EMAIL_JOB alias Job implementation in class ZBP_R_ZT_EMAIL_JOB unique
+persistent table zzt_email_job
+draft table zzt_email_jobd
+etag master LocalLastChangedAt
+lock dependent by _Config
+authorization dependent by _Config
+
+{
+  association _Config { with draft; }
+  association _JobParameter { create; with draft; }
+
+
+  field ( readonly ) EmailConfigUUID,
+  CreatedAt,
+  CreatedBy,
+  LastChangedAt,
+  LastChangedBy,
+  LocalLastChangedAt;
+
+  field ( numbering : managed, readonly ) UUID;
+  //  create;
+  update;
+  delete;
+
+
+  mapping for zzt_email_job
+    {
+      UUID                = uuid;
+      EmailConfigUUID     = email_config_uuid;
+      JobText             = job_text;
+      StartDatetime       = start_datetime;
+      EndDatetime         = end_datetime;
+      PeriodicGranularity = periodic_granularity;
+      PeriodicValue       = periodic_value;
+      JobCount            = jobcount;
+      JobName             = jobname;
+      LogHandle           = loghandle;
+      CreatedBy           = created_by;
+      CreatedAt           = created_at;
+      LastChangedBy       = last_changed_by;
+      LastChangedAt       = last_changed_at;
+      LocalLastChangedAt  = local_last_changed_at;
+    }
+}
+
+
+define behavior for ZR_ZT_EMAIL_JOB_PA alias JobParameter implementation in class ZBP_R_ZT_EMAIL_JOB_PA unique
+persistent table zzt_email_job_pa
+draft table zzt_email_job_pd
+lock dependent by _Config
+authorization dependent by _Config
+etag master LocalLastChangedAt
+
+{
+
+  association _Config { with draft; }
+  association _Job { with draft; }
+
+  field ( readonly ) EmailConfigUUID, JobConfigUUID,
+  CreatedAt,
+  CreatedBy,
+  LastChangedAt,
+  LastChangedBy,
+  LocalLastChangedAt;
+  field ( numbering : managed, readonly ) UUID;
+
+  //  create;
+  update;
+  delete;
+
+
+
+  mapping for zzt_email_job_pa
+    {
+      UUID               = uuid;
+      EmailConfigUUID    = email_config_uuid;
+      JobConfigUUID      = job_config_uuid;
+      ParameterName      = parameter_name;
+      ParameterOperator  = parameter_operator;
+      ParameterLowValue  = parameter_low_value;
+      ParameterHighValue = parameter_high_value;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}

@@ -1,0 +1,43 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'XLSX', 
+    typeNamePlural: 'XLSXs'
+  }
+}
+annotate view ZC_ZT_XLS_TEMPLATE with
+{
+  @UI.facet: [ {
+    id: 'idIdentification', 
+    type: #IDENTIFICATION_REFERENCE, 
+    label: 'XLSX', 
+    position: 10 
+  } ]
+  @UI.hidden: true
+  UUID;
+  
+  @UI.lineItem: [ {
+    position: 10 , 
+    importance: #MEDIUM, 
+    label: ''
+  } ]
+  @UI.identification: [ {
+    position: 10 , 
+    label: ''
+  } ]
+  TemplateName;
+  
+  @UI.lineItem: [ {
+    position: 20 , 
+    importance: #MEDIUM, 
+    label: ''
+  } ]
+  @UI.identification: [ {
+    position: 20 , 
+    label: ''
+  } ]
+  XlsxDataSource;
+  
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

@@ -1,0 +1,9 @@
+@EndUserText.label: 'Service definition for ZC_ZT_EMAIL_CONF'
+define service ZUI_ZT_EMAIL_CONF_O4 {
+  expose ZC_ZT_EMAIL_CONF   as Config;
+  expose ZC_ZT_EMAIL_TMPL   as Content;
+  expose ZC_ZT_EMAIL_CONF_R as Recipent;
+  expose ZC_ZT_EMAIL_CONF_A as Attachment;
+  expose ZC_ZT_EMAIL_JOB    as Job;
+  expose ZC_ZT_EMAIL_JOB_PA as JobParameter;
+}
